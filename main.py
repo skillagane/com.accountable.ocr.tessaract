@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+import pdf2image
 import pytesseract
 import re
 import json
@@ -38,6 +39,8 @@ client = OpenAI(
     api_key=os.getenv('OPENAI_API_KEY'),
 )
 
+def pdf_to_img(pdf_file):
+    return pdf2image.convert_from_path(pdf_file)
 
 def plot_gray(image):
     plt.figure(figsize=(16, 10))
@@ -56,7 +59,7 @@ def output_to_json(parsed_data, filename):
 def receipt_parse(file: UploadFile = File(...)):
     contents = file.file.read()
 
-    #with 
+    
     with open(f"{IMAGEDIR}{file.filename}", "wb") as f:
         f.write(contents)
         
@@ -67,7 +70,7 @@ def receipt_parse(file: UploadFile = File(...)):
     plot_gray(image)
 
     pytesseract.pytesseract.tesseract_cmd = (
-        r"C:\Users\Work\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
+        r"tessaract/tesseract.exe"
     )
     d = pytesseract.image_to_data(image, output_type=Output.DICT)
     n_boxes = len(d["level"])
@@ -134,4 +137,3 @@ def receipt_parse(file: UploadFile = File(...)):
     # print(parseNaGPT(extracted_text))
 
     return json.loads(parseNaGPT(extracted_text))
-
