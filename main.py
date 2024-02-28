@@ -58,7 +58,9 @@ def output_to_json(parsed_data, filename):
 @app.post("/receipt-data")
 def receipt_parse(file: UploadFile = File(...)):
     contents = file.file.read()
-
+    
+    if (".pdf" in file.filename):
+        file=pdf_to_img(file)
     
     with open(f"{IMAGEDIR}{file.filename}", "wb") as f:
         f.write(contents)
