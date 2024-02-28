@@ -1,4 +1,5 @@
 from typing import Union
+from dotenv import load_dotenv
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
@@ -9,9 +10,9 @@ import os
 from openai import OpenAI
 from pytesseract import Output
 from fastapi import FastAPI, UploadFile, File
-import uuid
 from fastapi.middleware.cors import CORSMiddleware
 
+load_dotenv()
 
 IMAGEDIR = "scanned/"
 
@@ -32,9 +33,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 client = OpenAI(
-    # This is the default and can be omitted
-    api_key=os.environ.get("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"),
+    api_key=os.getenv('OPENAI_API_KEY'),
 )
 
 
