@@ -12,7 +12,6 @@ from openai import OpenAI
 from pytesseract import Output
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-import fitz
 from PyPDF2 import PdfReader 
 
 
